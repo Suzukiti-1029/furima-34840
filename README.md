@@ -37,7 +37,7 @@
 ### Association
 
 - belongs_to :user
-- has_one :histories
+- has_one :history
 
 - belongs_to :category
 - belongs_to :situation
