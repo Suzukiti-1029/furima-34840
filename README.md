@@ -2,16 +2,16 @@
 
 ## usersテーブル
 
-| Column             | Type    | Option                |
-| ------------------ | ------- | --------------------- |
-| nickname           | string  | NOT NULL              |
-| email              | string  | NOT NULL, unique:true |
-| encrypted_password | string  | NOT NULL              |
-| first_name         | string  | NOT NULL              |
-| last_name          | string  | NOT NULL              |
-| first_name_detail  | string  | NOT NULL              |
-| last_name_detail   | string  | NOT NULL              |
-| birthday           | date    | NOT NULL              |
+| Column             | Type    | Option                   |
+| ------------------ | ------- | ------------------------ |
+| nickname           | string  | null: false              |
+| email              | string  | null: false, unique:true |
+| encrypted_password | string  | null: false              |
+| first_name         | string  | null: false              |
+| last_name          | string  | null: false              |
+| first_name_detail  | string  | null: false              |
+| last_name_detail   | string  | null: false              |
+| birthday           | date    | null: false              |
 
 ### Association
 
@@ -22,14 +22,14 @@
 
 | Column         | Type       | Option            |
 | -------------- | ---------- | ----------------- |
-| name           | string     | NOT NULL          |
-| describe       | text       | NOT NULL          |
-| category_id    | integer    | NOT NULL          |
-| situation_id   | integer    | NOT NULL          |
-| fare_option_id | integer    | NOT NULL          |
-| prefecture_id  | integer    | NOT NULL          |
-| need_days_id   | integer    | NOT NULL          |
-| fee            | integer    | NOT NULL          |
+| name           | string     | null: false       |
+| describe       | text       | null: false       |
+| category_id    | integer    | null: false       |
+| situation_id   | integer    | null: false       |
+| fare_option_id | integer    | null: false       |
+| prefecture_id  | integer    | null: false       |
+| need_days_id   | integer    | null: false       |
+| fee            | integer    | null: false       |
 | user           | references | foreign_key: true |
 
 **※ imageカラムはActiveStorageで実装**
@@ -62,12 +62,12 @@
 
 | Column        | Type       | Option            |
 | ------------- | ---------- | ----------------- |
-| area_number   | string     | NOT NULL          |
-| prefecture_id | integer    | NOT NULL          |
-| city          | string     | NOT NULL          |
-| address       | string     | NOT NULL          |
+| area_number   | string     | null: false       |
+| prefecture_id | integer    | null: false       |
+| city          | string     | null: false       |
+| address       | string     | null: false       |
 | building      | string     |                   |
-| phone_number  | string     | NOT NULL          |
+| phone_number  | string     | null: false       |
 | history       | references | foreign_key: true |
 
 
