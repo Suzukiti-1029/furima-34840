@@ -2,27 +2,21 @@
 
 ## usersテーブル
 
-| Column            | Type    | Option   |
-| ----------------- | ------- | -------- |
-| nickname          | string  | NOT NULL |
-| email             | string  | NOT NULL |
-| password          | string  | NOT NULL |
-| first_name        | string  | NOT NULL |
-| last_name         | string  | NOT NULL |
-| first_name_detail | string  | NOT NULL |
-| last_name_detail  | string  | NOT NULL |
-| birth_year_id     | integer | NOT NULL |
-| birth_month_id    | integer | NOT NULL |
-| birth_day_id      | integer | NOT NULL |
+| Column             | Type    | Option                |
+| ------------------ | ------- | --------------------- |
+| nickname           | string  | NOT NULL              |
+| email              | string  | NOT NULL, unique:true |
+| encrypted_password | string  | NOT NULL              |
+| first_name         | string  | NOT NULL              |
+| last_name          | string  | NOT NULL              |
+| first_name_detail  | string  | NOT NULL              |
+| last_name_detail   | string  | NOT NULL              |
+| birthday           | date    | NOT NULL              |
 
 ### Association
 
 - has_many :items
-- has_many :purchases
-
-- belongs_to :birth_year
-- belongs_to :birth_month
-- belongs_to :birth_day
+- has_many :histories
 
 ## itemsテーブル
 
@@ -33,7 +27,7 @@
 | category_id    | integer    | NOT NULL          |
 | situation_id   | integer    | NOT NULL          |
 | fare_option_id | integer    | NOT NULL          |
-| leave_area_id  | integer    | NOT NULL          |
+| prefecture_id  | integer    | NOT NULL          |
 | need_days_id   | integer    | NOT NULL          |
 | fee            | integer    | NOT NULL          |
 | user           | references | foreign_key: true |
@@ -43,7 +37,7 @@
 ### Association
 
 - belongs_to :user
-- has_one :purchase
+- has_one :histories
 
 - belongs_to :category
 - belongs_to :situation
@@ -51,69 +45,35 @@
 - belongs_to :prefecture
 - belongs_to :need_days
 
-## purchasesテーブル
+## historiesテーブル
 
 | Column        | Type       | Option            |
 | ------------- | ---------- | ----------------- |
-| area_number   | integer    | NOT NULL          |
-| prefecture_id | integer    | NOT NULL          |
-| city          | string     | NOT NULL          |
-| address       | string     | NOT NULL          |
-| building      | string     |                   |
-| phone_number  | integer    | foreign_key: true |
 | user          | references | foreign_key: true |
 | item          | references | foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- belongs_to :item
+- belongs_to :history
+
+## residencesテーブル
+
+| Column        | Type       | Option            |
+| ------------- | ---------- | ----------------- |
+| area_number   | string     | NOT NULL          |
+| prefecture_id | integer    | NOT NULL          |
+| city          | string     | NOT NULL          |
+| address       | string     | NOT NULL          |
+| building      | string     |                   |
+| phone_number  | string     | NOT NULL          |
+
+### Association
 
 - belongs_to :prefecture
 
+
 # ActiveHash
-
-## birth_yearモデル(クラス)
-
-{id: , name: }
-
-1. --
-2. 1930
-
-....
-88. 2016
-
-### Association
-
-- has_many :users(birth_year_id)
-
-## birth_monthモデル(クラス)
-
-{id: , name: }
-
-1. --
-2. 1
-
-...
-13. 12
-
-### Association
-
-- has_many :users(birth_month_id)
-
-## birth_dayモデル(クラス)
-
-{id: , name: }
-
-1. --
-2. 1
-
-....
-32. 31
-
-### Association
-
-- has_many :users(birth_day_id)
 
 ## categoryモデル(クラス)
 
