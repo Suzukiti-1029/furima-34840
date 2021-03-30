@@ -3,9 +3,11 @@ class ItemsController < ApplicationController
 
   def index
   end
+
   def new
     @item = Item.new
   end
+
   def create
     @item = Item.new(item_params)
     if @item.save
@@ -16,6 +18,7 @@ class ItemsController < ApplicationController
   end
 
   private
+
   def item_params
     params.require(:item).permit(
       :image, :name, :describe, :category_id, :situation_id, :fare_option_id, :prefecture_id, :need_days_id, :fee
