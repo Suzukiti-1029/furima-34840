@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_104101) do
     t.integer "fare_option_id", null: false
     t.integer "prefecture_id", null: false
     t.integer "need_days_id", null: false
-    t.integer "feel", null: false
+    t.integer "fee", null: false
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
