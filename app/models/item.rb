@@ -1,7 +1,12 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :user
-  belongs_to :category, :situation, :fare_option, :prefecture, :need_days
+  belongs_to :category
+  belongs_to :situation
+  belongs_to :fare_option
+  belongs_to :prefecture
+  belongs_to :need_days
+
   has_one_attached :image
 
   with_options presence: true do
