@@ -35,7 +35,7 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
       it 'feeが9999999以下の整数であれば登録できる' do
-        @item.fee = 9999999
+        @item.fee = 9_999_999
         expect(@item).to be_valid
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Fee must be greater than or equal to 300')
       end
       it 'feeが9999999より大きいならば出品できない' do
-        @item.fee = 10000000
+        @item.fee = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include('Fee must be less than or equal to 9999999')
       end

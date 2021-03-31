@@ -7,7 +7,7 @@ FactoryBot.define do
     fare_option_id { rand(2..3) }
     prefecture_id { rand(2..48) }
     need_days_id { rand(2..4) }
-    fee { rand(300..9999999) }
+    fee { rand(300..9_999_999) }
     association :user
 
     after(:build) do |item|
