@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_01_081318) do
+ActiveRecord::Schema.define(version: 2021_04_02_031033) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 2021_04_01_081318) do
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
+  create_table "purchase_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "item_id"
+    t.bigint "residence_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_purchase_histories_on_item_id"
+    t.index ["residence_id"], name: "index_purchase_histories_on_residence_id"
+    t.index ["user_id"], name: "index_purchase_histories_on_user_id"
+  end
+
   create_table "residences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "area_number", null: false
     t.integer "prefecture_id", null: false
@@ -79,4 +90,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_081318) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "items", "users"
+  add_foreign_key "purchase_histories", "items"
+  add_foreign_key "purchase_histories", "residences"
+  add_foreign_key "purchase_histories", "users"
 end
