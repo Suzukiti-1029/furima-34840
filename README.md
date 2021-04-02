@@ -45,20 +45,6 @@
 - belongs_to :prefecture
 - belongs_to :need_days
 
-## historiesテーブル
-
-| Column    | Type       | Option            |
-| --------- | ---------- | ----------------- |
-| user      | references | foreign_key: true |
-| item      | references | foreign_key: true |
-| history   | references | foreign_key: true |
-
-### Association
-
-- belongs_to :user
-- belongs_to :item
-- belongs_to :residence
-
 ## residencesテーブル
 
 | Column        | Type       | Option            |
@@ -76,6 +62,20 @@
 - has_one :history
 
 - belongs_to :prefecture
+
+## purchase_historiesテーブル
+
+| Column    | Type       | Option            |
+| --------- | ---------- | ----------------- |
+| user      | references | foreign_key: true |
+| item      | references | foreign_key: true |
+| history   | references | foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :item
+- belongs_to :residence
 
 
 # ActiveHash
