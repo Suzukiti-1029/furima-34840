@@ -10,7 +10,6 @@ class ResidencesController < ApplicationController
     @residence_purchase_history = ResidencePurchaseHistory.new(residence_params)
     if @residence_purchase_history.valid?
       @residence_purchase_history.save
-      redirect_to item_path(@item)
     else
       render :new
     end
