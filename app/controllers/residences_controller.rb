@@ -30,6 +30,8 @@ class ResidencesController < ApplicationController
   end
 
   def move_to_root
+    # 履歴がある(購入されている)ならば、
+    redirect_to root_path if @item.purchase_history != nil
     redirect_to root_path if @item.user.id == current_user.id
   end
 end
