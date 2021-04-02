@@ -2,7 +2,7 @@ class ResidencePurchaseHistory
   include ActiveModel::Model
   attr_accessor :area_number, :prefecture_id,
     :city, :address, :building, :phone_number,
-    :user_id, :item_id
+    :user_id, :item_id, :item_fee, :token
 
   with_options presence: true do
     validates :area_number, format: {
@@ -17,6 +17,8 @@ class ResidencePurchaseHistory
       }
     validates :user_id
     validates :item_id
+    validates :item_fee
+    validates :token
   end
 
   validates :prefecture_id, numericality: { other_than: 1 }
