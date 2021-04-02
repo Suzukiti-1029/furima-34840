@@ -51,12 +51,13 @@
 | --------- | ---------- | ----------------- |
 | user      | references | foreign_key: true |
 | item      | references | foreign_key: true |
+| history   | references | foreign_key: true |
 
 ### Association
 
 - belongs_to :user
 - belongs_to :item
-- has_one :residence
+- belongs_to :residence
 
 ## residencesテーブル
 
@@ -68,12 +69,11 @@
 | address       | string     | null: false       |
 | building      | string     |                   |
 | phone_number  | string     | null: false       |
-| history       | references | foreign_key: true |
 
 
 ### Association
 
-- belongs_to :history
+- has_one :history
 
 - belongs_to :prefecture
 

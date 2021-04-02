@@ -7,7 +7,6 @@ class CreateResidences < ActiveRecord::Migration[6.0]
       t.string :address, null: false
       t.string :building
       t.string :phone_number, null: false
-      #! t.references :history, foreign_key: true 後ほど実装
       t.timestamps
     end
   end
