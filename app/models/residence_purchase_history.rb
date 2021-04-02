@@ -33,7 +33,7 @@ class ResidencePurchaseHistory
     PurchaseHistory.create(
       user_id: user_id,
       item_id: item_id,
-      residence: residence.id
+      residence_id: residence.id
     )
   end
 end
