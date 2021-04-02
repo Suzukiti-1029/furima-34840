@@ -3,12 +3,13 @@ class ResidencesController < ApplicationController
   before_action :set_item
   before_action :move_to_root
   def new
-    @residence = Residence.new
+    @residence_purchase_history = ResidencePurchaseHistory.new
   end
 
   def create
-    @residence = Residence.new(residence_params)
-    if @residence.save
+    @residence_purchase_history = ResidencePurchaseHistory.new(residence_params)
+    if @residence_purchase_history.valid?
+      @residence_purchase_history.save
       redirect_to item_path(@item)
     else
       render :new
@@ -17,8 +18,11 @@ class ResidencesController < ApplicationController
 
   private
   def residence_params
-    params.require(:residence).permit(
+    params.require(:residence_purchase_history).permit(
       :area_number, :prefecture_id, :city, :address, :building, :phone_number
+    ).merge(
+      user_id: current_user.id,
+      item_id: @item.id
     )
   end
 
