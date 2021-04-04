@@ -55,7 +55,12 @@ class ItemsController < ApplicationController
 
   def move_to_root
     # 履歴がある(購入されている)ならば、
-    redirect_to root_path unless @item.purchase_history.nil?
-    redirect_to root_path if @item.user.id != current_user.id
+    if @item.purchase_history != nil
+      redirect_to root_path
+      return
+    elsif @item.user.id != current_user.id
+      redirect_to root_path
+      return
+    end
   end
 end
