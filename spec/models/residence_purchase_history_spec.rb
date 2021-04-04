@@ -13,7 +13,7 @@ RSpec.describe ResidencePurchaseHistory, type: :model do
   end
 
   describe '商品購入機能' do
-    context "購入できる時" do
+    context '購入できる時' do
       it '情報が全て正しく入力・存在されていれば購入できる' do
         expect(@residence_purchase_history).to be_valid
         sleep 3.0
@@ -55,37 +55,37 @@ RSpec.describe ResidencePurchaseHistory, type: :model do
       it 'area_numberが7ケタの半角数字のみでは購入できない' do
         @residence_purchase_history.area_number = '1234567'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'area_numberが3ケタの全角数字と半角ハイフン(-)、4ケタの全角数字では購入できない' do
         @residence_purchase_history.area_number = '１２３-４５６７'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'area_numberが半角英数では購入できない' do
         @residence_purchase_history.area_number = '123a567'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'area_numberが半角英のみでは購入できない' do
         @residence_purchase_history.area_number = 'abcdefg'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Area number 3ケタの半角数字、半角ハイフン(-)、4ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'prefecture_idが空では購入できない' do
         @residence_purchase_history.prefecture_id = ''
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Prefecture is not a number")
+        expect(@residence_purchase_history.errors.full_messages).to include('Prefecture is not a number')
         sleep 3.0
       end
       it 'prefecture_idが1では購入できない' do
         @residence_purchase_history.prefecture_id = 1
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Prefecture must be other than 1")
+        expect(@residence_purchase_history.errors.full_messages).to include('Prefecture must be other than 1')
         sleep 3.0
       end
       it 'cityが空では購入できない' do
@@ -109,37 +109,37 @@ RSpec.describe ResidencePurchaseHistory, type: :model do
       it 'phone_numberが9ケタ以下の半角数字では購入できない' do
         @residence_purchase_history.phone_number = '123456789'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'phone_numberが12ケタ以上の半角数字では購入できない' do
         @residence_purchase_history.phone_number = '123456789012'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'phone_numberが10ケタの全角数字では購入できない' do
         @residence_purchase_history.phone_number = '１２３４５６７８９０'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'phone_numberが11ケタの全角数字では購入できない' do
         @residence_purchase_history.phone_number = '１２３４５６７８９０１'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'phone_numberが半角英数では購入できない' do
         @residence_purchase_history.phone_number = '12345a7890'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'phone_numberが半角英のみでは購入できない' do
         @residence_purchase_history.phone_number = 'abcdefghij'
         @residence_purchase_history.valid?
-        expect(@residence_purchase_history.errors.full_messages).to include("Phone number 10ケタか11ケタの半角数字を続けて入力してください")
+        expect(@residence_purchase_history.errors.full_messages).to include('Phone number 10ケタか11ケタの半角数字を続けて入力してください')
         sleep 3.0
       end
       it 'user_idが空では購入できない' do
@@ -168,5 +168,4 @@ RSpec.describe ResidencePurchaseHistory, type: :model do
       end
     end
   end
-
 end

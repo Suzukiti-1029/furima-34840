@@ -17,6 +17,7 @@ class ResidencesController < ApplicationController
   end
 
   private
+
   def residence_params
     params.require(:residence_purchase_history).permit(
       :area_number, :prefecture_id, :city, :address, :building, :phone_number
@@ -34,7 +35,7 @@ class ResidencesController < ApplicationController
 
   def move_to_root
     # 履歴がある(購入されている)ならば、
-    redirect_to root_path if @item.purchase_history != nil
+    redirect_to root_path unless @item.purchase_history.nil?
     redirect_to root_path if @item.user.id == current_user.id
   end
 
@@ -47,4 +48,3 @@ class ResidencesController < ApplicationController
     )
   end
 end
-
