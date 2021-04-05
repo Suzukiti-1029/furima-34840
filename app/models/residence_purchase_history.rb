@@ -24,18 +24,19 @@ class ResidencePurchaseHistory
   validates :prefecture_id, numericality: { other_than: 1 }
 
   def save
+    purchase_history = PurchaseHistory.create(
+      user_id: user_id,
+      item_id: item_id
+    )
+
     residence = Residence.create(
       area_number: area_number,
       prefecture_id: prefecture_id,
       city: city,
       address: address,
       building: building,
-      phone_number: phone_number
-    )
-    PurchaseHistory.create(
-      user_id: user_id,
-      item_id: item_id,
-      residence_id: residence.id
+      phone_number: phone_number,
+      purchase_history_id: purchase_history.id
     )
   end
 end
