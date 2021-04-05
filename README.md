@@ -47,19 +47,19 @@
 
 ## residencesテーブル
 
-| Column        | Type       | Option            |
-| ------------- | ---------- | ----------------- |
-| area_number   | string     | null: false       |
-| prefecture_id | integer    | null: false       |
-| city          | string     | null: false       |
-| address       | string     | null: false       |
-| building      | string     |                   |
-| phone_number  | string     | null: false       |
-
+| Column           | Type       | Option            |
+| ---------------- | ---------- | ----------------- |
+| area_number      | string     | null: false       |
+| prefecture_id    | integer    | null: false       |
+| city             | string     | null: false       |
+| address          | string     | null: false       |
+| building         | string     |                   |
+| phone_number     | string     | null: false       |
+| purchase_history | references | foreign_key: true |
 
 ### Association
 
-- has_one :history
+- belongs_to :purchase_history
 
 - belongs_to :prefecture
 
@@ -69,13 +69,13 @@
 | --------- | ---------- | ----------------- |
 | user      | references | foreign_key: true |
 | item      | references | foreign_key: true |
-| history   | references | foreign_key: true |
+
 
 ### Association
 
 - belongs_to :user
 - belongs_to :item
-- belongs_to :residence
+- has_one :residence
 
 
 # ActiveHash

@@ -1,5 +1,5 @@
 class PurchaseHistory < ApplicationRecord
   belongs_to :user
   belongs_to :item
-  belongs_to :residence
+  has_one :residence
 end
