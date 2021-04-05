@@ -56,6 +56,5 @@ class ItemsController < ApplicationController
   def move_to_root
     # 履歴がなくない(ある)、つまり、購入されている、または出品者でないならばトップページへ
     redirect_to root_path if @item.purchase_history != nil || @item.user.id != current_user.id
-    end
   end
 end
