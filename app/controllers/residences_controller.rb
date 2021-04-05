@@ -35,7 +35,7 @@ class ResidencesController < ApplicationController
 
   def move_to_root
     # 履歴がなくない(ある)、つまり、購入されている、または出品者ならばトップページへ
-    redirect_to root_path if @item.purchase_history != nil || @item.user.id == current_user.id
+    redirect_to root_path if !@item.purchase_history.nil? || @item.user.id == current_user.id
   end
 
   def pay_item
