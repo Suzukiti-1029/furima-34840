@@ -29,7 +29,7 @@
       <% if @item.user.id == current_user.id %>
         <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
-        <%= link_to "削除", item_path, method: :delete, class:"item-destroy" %>
+        <%= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
       <% else %>
         <%# 商品が売れていない場合はこちらを表示しましょう %>
         <%= link_to "購入画面に進む", new_item_residences_path(@item) ,class:"item-red-btn"%>
@@ -82,18 +82,32 @@
   <%# /商品の概要 %>
 
   <div class="comment-box">
-    <form>
-      <textarea class="comment-text"></textarea>
+  <%= form_with model: [@item, @comment], local: true do |f| %>
+    <div class="comment-header">
+      <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
+      <span class="comment-header-text" id="comment-header-text"><%= @comments.length %> comments</span>
+    </div>
+    <div id="comments-index">
+      <% @comments.each do |comment| %>
+        <p class="comment-index">
+          <strong><%= comment.user.nickname %>：</strong>
+          <%= comment.text %>
+        </p>
+      <% end %>
+    </div>
+    <% if user_signed_in? %>
+      <%= render 'shared/error_messages', model: f.object %>
+      <%= f.text_area :text, class:"comment-text", id:"comment-text", placeholder:"100文字まで",rows:"3", maxlength:"100" %>
       <p class="comment-warn">
         相手のことを考え丁寧なコメントを心がけましょう。
         <br>
         不快な言葉遣いなどは利用制限や退会処分となることがあります。
       </p>
-      <button type="submit" class="comment-btn">
-        <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-        <span>コメントする<span>
-      </button>
-    </form>
+      <%= f.submit "コメントする", class:"comment-btn",'data-disable-with': false %>
+    <% else %>
+      <p class="comment-error">※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p>
+    <% end %>
+  <% end %>
   </div>
   <div class="links">
     <a href="#" class="change-item-btn">

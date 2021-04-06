@@ -16,7 +16,8 @@
 ### Association
 
 - has_many :items
-- has_many :histories
+- has_many :purchase_histories
+- has_many :comments
 
 ## itemsテーブル
 
@@ -37,7 +38,8 @@
 ### Association
 
 - belongs_to :user
-- has_one :history
+- has_one :purchase_history
+- has_many :comments, dependent: :destroy
 
 - belongs_to :category
 - belongs_to :situation
@@ -76,6 +78,19 @@
 - belongs_to :user
 - belongs_to :item
 - has_one :residence
+
+## commentsテーブル
+
+| Column    | Type       | Option            |
+| --------- | ---------- | ----------------- |
+| text      | text       | null: false       |
+| user      | references | foreign_key: true |
+| item      | references | foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :item
 
 
 # ActiveHash
