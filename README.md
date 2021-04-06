@@ -16,7 +16,7 @@
 ### Association
 
 - has_many :items
-- has_many :histories
+- has_many :purchase_histories
 - has_many :comments
 
 ## itemsテーブル
@@ -38,7 +38,7 @@
 ### Association
 
 - belongs_to :user
-- has_one :history
+- has_one :purchase_history
 - has_many :comments, dependent: :destroy
 
 - belongs_to :category
