@@ -95,15 +95,18 @@
         </p>
       <% end %>
     </div>
-    <%= render 'shared/error_messages', model: f.object %>
-    <%= f.text_area :text, class:"comment-text", id:"comment-text", placeholder:"100文字まで",rows:"3", maxlength:"100" %>
-    <p class="comment-warn">
-      相手のことを考え丁寧なコメントを心がけましょう。
-      <br>
-      不快な言葉遣いなどは利用制限や退会処分となることがあります。
-    </p>
-
-    <%= f.submit "コメントする", class:"comment-btn",'data-disable-with': false %>
+    <% if user_signed_in? %>
+      <%= render 'shared/error_messages', model: f.object %>
+      <%= f.text_area :text, class:"comment-text", id:"comment-text", placeholder:"100文字まで",rows:"3", maxlength:"100" %>
+      <p class="comment-warn">
+        相手のことを考え丁寧なコメントを心がけましょう。
+        <br>
+        不快な言葉遣いなどは利用制限や退会処分となることがあります。
+      </p>
+      <%= f.submit "コメントする", class:"comment-btn",'data-disable-with': false %>
+    <% else %>
+      <p class="comment-error">※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p>
+    <% end %>
   <% end %>
   </div>
   <div class="links">

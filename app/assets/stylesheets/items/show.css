@@ -186,6 +186,11 @@
   margin-bottom: 2vh;
 }
 
+.comment-error {
+  font-size: 18px;
+  color: red;
+}
+
 .comment-flag {
   display: flex;
   justify-content: center;
