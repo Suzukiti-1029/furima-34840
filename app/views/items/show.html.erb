@@ -85,14 +85,16 @@
   <%= form_with model: [@item, @comment], local: true do |f| %>
     <div class="comment-header">
       <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-      <span class="comment-header-text"><%= @comments.length %> comments</span>
+      <span class="comment-header-text" id="comment-header-text"><%= @comments.length %> comments</span>
     </div>
-    <% @comments.each do |comment| %>
-      <p class="comment-index">
-        <strong><%= comment.user.nickname %>：</strong>
-        <%= comment.text %>
-      </p>
-    <% end %>
+    <div id="comments-index">
+      <% @comments.each do |comment| %>
+        <p class="comment-index">
+          <strong><%= comment.user.nickname %>：</strong>
+          <%= comment.text %>
+        </p>
+      <% end %>
+    </div>
     <%= render 'shared/error_messages', model: f.object %>
     <%= f.text_area :text, class:"comment-text", id:"comment-text", placeholder:"100文字まで",rows:"3", maxlength:"100" %>
     <p class="comment-warn">

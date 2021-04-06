@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
     @item = Item.find(params[:item_id])
     @comment = Comment.new(comment_params)
     if @comment.save
-      redirect_to root_path
+      ActionCable.server.broadcast 'comment_channel', content: [@comment, @comment.user, @item.comments.all.length]
     else
       render "items/show"
     end
