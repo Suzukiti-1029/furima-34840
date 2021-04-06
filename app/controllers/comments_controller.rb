@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
     if @comment.save
       ActionCable.server.broadcast 'comment_channel', content: [@comment, @comment.user, @item.comments.all.length]
     else
+      @comments = @item.comments.includes(:user)
       render "items/show"
     end
   end
