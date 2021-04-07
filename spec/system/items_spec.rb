@@ -69,23 +69,26 @@ RSpec.describe '商品一覧機能', type: :system do
     end
   end
   context '商品が売り切れている時' do
-    # データの準備
-    item = FactoryBot.create(:item)
-    user = FactoryBot.create(:user)
-    residence_purchase_history = FactoryBot.build(
-      :residence_purchase_history,
-      user_id: user.id,
-      item_id: item.id,
-      item_fee: item.fee
-    )
-    residence_purchase_history.save
+    def set_all_data()
+      item = FactoryBot.create(:item)
+      user = FactoryBot.create(:user)
+      residence_purchase_history = FactoryBot.build(
+        :residence_purchase_history,
+        user_id: user.id,
+        item_id: item.id,
+        item_fee: item.fee
+      )
+      residence_purchase_history.save
+      sleep 0.1
+    end
 
     it '画像にsold outの文字が表示されている' do
+      # データの準備
+      set_all_data()
       # トップページに移動する
       visit root_path
       # sold outの文字が表示されていることを確認する
       expect(page).to have_content('Sold Out!!')
-      binding.pry
     end
   end
 end
