@@ -67,17 +67,35 @@ RSpec.describe '商品一覧機能', type: :system do
   context '商品が出品されていない時' do
     it 'ダミーの商品が表示されている' do
       # トップページに移動する
+      basic_pass(root_path)
       # トップページにダミー商品の画像があることを確認する
+      expect(page).to have_selector("img[src$='sample.jpg']")
       # トップページにダミー商品の名前があることを確認する
+      expect(page).to have_content('商品を出品してね！')
       # トップページにダミー商品の値段があることを確認する
+      expect(page).to have_content('99999999円')
       # トップページにダミー商品の配送料負担オプションがあることを確認する
+      expect(page).to have_content('(税込み)')
     end
   end
   context '商品が売り切れている時' do
+    # データの準備
+    item = FactoryBot.create(:item)
+    user = FactoryBot.create(:user)
+    residence_purchase_history = FactoryBot.build(
+      :residence_purchase_history,
+      user_id: user.id,
+      item_id: item.id,
+      item_fee: item.fee
+    )
+    residence_purchase_history.save
+
     it '画像にsold outの文字が表示されている' do
-      # データの準備
       # トップページに移動する
-      # sold outの画像が表示されていることを確認する
+      visit root_path
+      # sold outの文字が表示されていることを確認する
+      expect(page).to have_content('Sold Out!!')
+      binding.pry
     end
   end
 end
