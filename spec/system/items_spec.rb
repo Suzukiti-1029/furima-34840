@@ -14,11 +14,7 @@ RSpec.describe '商品出品機能', type: :system do
   context '商品を出品できる時' do
     it 'ログインしたユーザーは商品を出品できる' do
       # ログインする
-      basic_pass(new_user_session_path)
-      fill_in 'user[email]', with: @item.user.email
-      fill_in 'user[password]', with: @item.user.password
-      click_on('ログイン')
-      expect(current_path).to eq(root_path)
+      sign_in(@item.user)
       # 商品出品ページへのリンクがあることを確認する
       expect(page).to have_content('出品する')
       expect(page).to have_content('新規投稿商品')
