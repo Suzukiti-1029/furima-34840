@@ -20,9 +20,8 @@ RSpec.describe Comment, type: :model do
       it 'ログインしていないとコメントできない' do
         @comment.user = nil
         @comment.valid?
-        expect(@comment.errors.full_messages).to include("User must exist")
+        expect(@comment.errors.full_messages).to include('User must exist')
       end
     end
   end
-
 end

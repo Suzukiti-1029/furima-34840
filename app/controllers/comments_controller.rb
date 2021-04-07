@@ -7,11 +7,12 @@ class CommentsController < ApplicationController
       ActionCable.server.broadcast 'comment_channel', content: [@comment, @comment.user, @item.comments.all.length]
     else
       @comments = @item.comments.includes(:user)
-      render "items/show"
+      render 'items/show'
     end
   end
 
   private
+
   def comment_params
     params.require(:comment).permit(:text).merge(
       user_id: current_user.id,
