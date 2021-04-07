@@ -39,14 +39,8 @@ RSpec.describe '商品出品機能', type: :system do
       expect{click_on('出品する')}.to change{Item.count}.by(1)
       # トップページに遷移することを確認する
       expect(current_path).to eq(root_path)
-      # トップページには先ほど出品した商品の画像があることを確認する
-      expect(page).to have_selector("img[src$='test_img.png']")
-      # トップページには先ほど出品した商品の名前があることを確認する
-      expect(page).to have_content(@item.name)
-      # トップページには先ほど出品した商品の値段があることを確認する
-      expect(page).to have_content(@item.fee)
-      # トップページには先ほど出品した商品の配送料負担オプションがあることを確認する
-      expect(page).to have_content(@item.fare_option.name)
+      # トップページには先ほど出品した商品の画像、名前、値段、配送料負担オプションがあることを確認する
+      visible_checker(@item, false)
     end
   end
   context '商品を出品できない時' do
