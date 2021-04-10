@@ -18,14 +18,7 @@ RSpec.describe '商品出品機能', type: :system do
       image_path = Rails.root.join('public/images/test_img.png')
       # フォームに情報を入力する
       attach_file('item[image]', image_path)
-      fill_in 'item[name]', with: @item.name
-      fill_in 'item[describe]', with: @item.describe
-      select @item.category.name, from: 'item[category_id]'
-      select @item.situation.name, from: 'item[situation_id]'
-      select @item.fare_option.name, from: 'item[fare_option_id]'
-      select @item.prefecture.name, from: 'item[prefecture_id]'
-      select @item.need_days.name, from: 'item[need_days_id]'
-      fill_in 'item[fee]', with: @item.fee
+      item_form_fill(@item)
       # 販売手数料と販売利益が表示されていることを確認する
       expect(page).to have_content((@item.fee * 0.1).ceil)
       expect(page).to have_content((@item.fee * 0.9).floor)
@@ -232,14 +225,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       image_path = Rails.root.join('public/images/test_edit_img.jpg')
       # 投稿内容を編集する
       attach_file('item[image]', image_path)
-      fill_in 'item[name]', with: @item_edit.name
-      fill_in 'item[describe]', with: @item_edit.describe
-      select @item_edit.category.name, from: 'item[category_id]'
-      select @item_edit.situation.name, from: 'item[situation_id]'
-      select @item_edit.fare_option.name, from: 'item[fare_option_id]'
-      select @item_edit.prefecture.name, from: 'item[prefecture_id]'
-      select @item_edit.need_days.name, from: 'item[need_days_id]'
-      fill_in 'item[fee]', with: @item_edit.fee
+      item_form_fill(@item.edit)
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
       expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品詳細ページに遷移したことを確認する
@@ -276,14 +262,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       # 商品情報編集ページに遷移する
       visit edit_item_path(@item)
       # 投稿内容を編集する
-      fill_in 'item[name]', with: @item.name
-      fill_in 'item[describe]', with: @item.describe
-      select @item.category.name, from: 'item[category_id]'
-      select @item.situation.name, from: 'item[situation_id]'
-      select @item.fare_option.name, from: 'item[fare_option_id]'
-      select @item.prefecture.name, from: 'item[prefecture_id]'
-      select @item.need_days.name, from: 'item[need_days_id]'
-      fill_in 'item[fee]', with: @item.fee
+      item_form_fill(@item)
       # 「変更する」ボタンを押してもItemモデルのカウントは変わらないことを確認する
       expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品情報編集ページに戻されることを確認する
