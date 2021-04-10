@@ -38,6 +38,30 @@ RSpec.describe '商品出品機能', type: :system do
     end
   end
   context '商品を出品できない時' do
+    it '出品ページで正しく情報が入力されていないと出品できない' do
+      # ログインする
+      sign_in(@item.user)
+      # 商品出品ページに移動する
+      visit new_item_path
+      # 「出品する」をクリックしてもItemモデルのカウントが上がらないことを確認する
+      expect{click_on('出品する')}.to change{Item.count}.by(0)
+      # 商品出品ページに戻されることを確認する
+      expect(current_path).to eq(items_path)
+      # エラーメッセージが画面に表示されていることを確認する
+      @item.image = nil
+      @item.name = ''
+      @item.describe = ''
+      @item.category_id = 1
+      @item.situation_id = 1
+      @item.fare_option_id = 1
+      @item.prefecture_id = 1
+      @item.need_days_id = 1
+      @item.fee = ''
+      @item.valid?
+      @item.errors.full_messages.each do |error_message|
+        expect(page).to have_content(error_message)
+      end
+    end
     it 'ログインしていないと商品出品ページに遷移できない' do
       # 商品出品ページに遷移しようとする
       visit new_item_path
