@@ -1,5 +1,5 @@
-module ItemVisibleChecker
-  def visible_checker(item, all_request_bool)
+module ItemVisibleCheckerSupport
+  def item_visible_checker(item, all_request_bool)
     expect(page).to have_selector("img[src$='test_img.png']")
     expect(page).to have_content(item.name)
     expect(page).to have_content(item.fee)

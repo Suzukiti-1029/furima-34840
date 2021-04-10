@@ -40,7 +40,7 @@ RSpec.describe '商品出品機能', type: :system do
       # トップページに遷移することを確認する
       expect(current_path).to eq(root_path)
       # トップページには先ほど出品した商品の画像、名前、値段、配送料負担オプションがあることを確認する
-      visible_checker(@item, false)
+      item_visible_checker(@item, false)
     end
   end
   context '商品を出品できない時' do
@@ -109,7 +109,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      visible_checker(@item, true)
+      item_visible_checker(@item, true)
       # 編集・削除ボタンがあることを確認する
       expect(page).to have_content('商品の編集')
       expect(page).to have_content('削除')
@@ -128,7 +128,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      visible_checker(@item, true)
+      item_visible_checker(@item, true)
       # 編集・削除ボタンがないことを確認する
       expect(page).to have_no_content('商品の編集')
       expect(page).to have_no_content('削除')
@@ -147,7 +147,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      visible_checker(@item, true)
+      item_visible_checker(@item, true)
       # 編集・削除ボタンがないことを確認する
       expect(page).to have_no_content('商品の編集')
       expect(page).to have_no_content('削除')
