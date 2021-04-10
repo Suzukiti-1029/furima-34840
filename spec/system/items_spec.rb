@@ -34,7 +34,7 @@ RSpec.describe '商品出品機能', type: :system do
       # トップページに遷移することを確認する
       expect(current_path).to eq(root_path)
       # トップページには先ほど出品した商品の画像、名前、値段、配送料負担オプションがあることを確認する
-      item_visible_checker(@item, false)
+      item_visible_checker(@item, 'test_img.png', false)
     end
   end
   context '商品を出品できない時' do
@@ -113,7 +113,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      item_visible_checker(@item, true)
+      item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがあることを確認する
       expect(page).to have_content('商品の編集')
       expect(page).to have_content('削除')
@@ -131,7 +131,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      item_visible_checker(@item, true)
+      item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがないことを確認する
       expect(page).to have_no_content('商品の編集')
       expect(page).to have_no_content('削除')
@@ -149,7 +149,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
-      item_visible_checker(@item, true)
+      item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがないことを確認する
       expect(page).to have_no_content('商品の編集')
       expect(page).to have_no_content('削除')
@@ -208,48 +208,115 @@ end
 
 RSpec.describe '商品情報編集機能', type: :system do
   before do
+    @item = FactoryBot.create(:item)
+    @user = FactoryBot.create(:user)
   end
   context '商品情報を編集できる時' do
     it 'ログインした出品者は商品を編集でき、編集した情報が反映される' do
+      # 編集用のデータを準備
+      @item_edit = FactoryBot.build(:item)
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品情報編集ページに遷移する
+      visit edit_item_path(@item)
       # すでに出品済みの内容がフォームに入っていることを確認する
+      expect(find('#item-name').value).to eq(@item.name)
+      expect(find('#item-info').value).to eq(@item.describe)
+      expect(find('#item-category').value.to_i).to eq(@item.category_id)
+      expect(find('#item-sales-status').value.to_i).to eq(@item.situation_id)
+      expect(find('#item-shipping-fee-status').value.to_i).to eq(@item.fare_option_id)
+      expect(find('#item-prefecture').value.to_i).to eq(@item.prefecture_id)
+      expect(find('#item-scheduled-delivery').value.to_i).to eq(@item.need_days_id)
+      expect(find('#item-price').value.to_i).to eq(@item.fee)
+      # 添付する画像を定義する
+      image_path = Rails.root.join('public/images/test_edit_img.jpg')
       # 投稿内容を編集する
+      attach_file('item[image]', image_path)
+      fill_in 'item[name]', with: @item_edit.name
+      fill_in 'item[describe]', with: @item_edit.describe
+      select @item_edit.category.name, from: 'item[category_id]'
+      select @item_edit.situation.name, from: 'item[situation_id]'
+      select @item_edit.fare_option.name, from: 'item[fare_option_id]'
+      select @item_edit.prefecture.name, from: 'item[prefecture_id]'
+      select @item_edit.need_days.name, from: 'item[need_days_id]'
+      fill_in 'item[fee]', with: @item_edit.fee
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
+      expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品詳細ページに遷移したことを確認する
+      expect(current_path).to eq(item_path(@item))
       # 詳細ページには先ほど変更した内容の商品の全情報が存在することを確認する
+      item_visible_checker(@item_edit, 'test_edit_img.jpg', true)
     end
     it '編集しなくても画像なしの商品にならない' do
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品情報編集ページに遷移する
+      visit edit_item_path(@item)
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
+      expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品詳細ページに遷移したことを確認する
+      expect(current_path).to eq(item_path(@item))
       # 詳細ページには先ほどと同じ内容の商品の全情報が存在することを確認する
+      item_visible_checker(@item, 'test_img.png', true)
     end
   end
   context '商品情報を編集できない時' do
     it '編集ページで正しく情報が入力されていないと編集できない' do
+      # 編集用のデータを準備
+      @item.name = ''
+      @item.describe = ''
+      @item.category_id = 1
+      @item.situation_id = 1
+      @item.fare_option_id = 1
+      @item.prefecture_id = 1
+      @item.need_days_id = 1
+      @item.fee = ''
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品情報編集ページに遷移する
+      visit edit_item_path(@item)
       # 投稿内容を編集する
+      fill_in 'item[name]', with: @item.name
+      fill_in 'item[describe]', with: @item.describe
+      select @item.category.name, from: 'item[category_id]'
+      select @item.situation.name, from: 'item[situation_id]'
+      select @item.fare_option.name, from: 'item[fare_option_id]'
+      select @item.prefecture.name, from: 'item[prefecture_id]'
+      select @item.need_days.name, from: 'item[need_days_id]'
+      fill_in 'item[fee]', with: @item.fee
       # 「変更する」ボタンを押してもItemモデルのカウントは変わらないことを確認する
+      expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品情報編集ページに戻されることを確認する
+      expect(current_path).to eq(item_path(@item))
       # エラーメッセージが画面に表示されていることを確認する
+      @item.valid?
+      @item.errors.full_messages.each do |error_message|
+        expect(page).to have_content(error_message)
+      end
     end
     it 'ログインした出品者でないユーザーは商品情報編集ページに遷移できない' do
       # 出品者でないユーザーでログインする
+      sign_in(@user)
       # 商品情報編集ページに遷移しようとする
+      visit edit_item_path(@item)
       # トップページに戻されることを確認する
+      expect(current_path).to eq(root_path)
     end
     it 'ログインしていないユーザーは商品情報編集ページに遷移できない' do
       # 商品情報編集ページに遷移しようとする
-      # トップページに戻されることを確認する
+      visit edit_item_path(@item)
+      # ログインページに飛ばされることを確認する
+      expect(current_path).to eq(new_user_session_path)
     end
     it 'ログインした出品者でも、売り切れの商品情報編集ページには遷移できない' do
       # データの準備
+      set_data(@user, @item, false)
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品情報編集ページに遷移しようとする
+      visit edit_item_path(@item)
       # トップページに戻されることを確認する
+      expect(current_path).to eq(root_path)
     end
   end
 end
