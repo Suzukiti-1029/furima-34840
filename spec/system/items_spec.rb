@@ -42,14 +42,7 @@ RSpec.describe '商品出品機能', type: :system do
       expect(current_path).to eq(items_path)
       # エラーメッセージが画面に表示されていることを確認する
       @item.image = nil
-      @item.name = ''
-      @item.describe = ''
-      @item.category_id = 1
-      @item.situation_id = 1
-      @item.fare_option_id = 1
-      @item.prefecture_id = 1
-      @item.need_days_id = 1
-      @item.fee = ''
+      set_item_empty_data(@item)
       @item.valid?
       @item.errors.full_messages.each do |error_message|
         expect(page).to have_content(error_message)
@@ -249,14 +242,7 @@ RSpec.describe '商品情報編集機能', type: :system do
   context '商品情報を編集できない時' do
     it '編集ページで正しく情報が入力されていないと編集できない' do
       # 編集用のデータを準備
-      @item.name = ''
-      @item.describe = ''
-      @item.category_id = 1
-      @item.situation_id = 1
-      @item.fare_option_id = 1
-      @item.prefecture_id = 1
-      @item.need_days_id = 1
-      @item.fee = ''
+      set_item_empty_data(@item)
       # 出品者でログインする
       sign_in(@item.user)
       # 商品情報編集ページに遷移する
