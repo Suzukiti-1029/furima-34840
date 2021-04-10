@@ -103,34 +103,58 @@ RSpec.describe '商品詳細表示機能', type: :system do
     it 'ログインした出品者は商品詳細ページで、購入画面遷移ボタンは表示されないが、
       商品の全情報、編集・削除ボタン・コメント投稿欄が表示される' do
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
+      visible_checker(@item, true)
       # 編集・削除ボタンがあることを確認する
+      expect(page).to have_content('商品の編集')
+      expect(page).to have_content('削除')
       # 購入画面遷移ボタンがないことを確認する
+      expect(page).to have_no_content('購入画面に進む')
       # コメント投稿欄があることを確認する
+      expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
 
     it 'ログインした出品者でないユーザーは商品詳細ページで、編集・削除ボタンは表示されないが、
       商品の全情報、購入画面遷移ボタン・コメント投稿欄が表示される' do
       # 出品者でないユーザーでログインする
+      sign_in(@user)
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
+      visible_checker(@item, true)
       # 編集・削除ボタンがないことを確認する
+      expect(page).to have_no_content('商品の編集')
+      expect(page).to have_no_content('削除')
       # 購入画面遷移ボタンがあることを確認する
+      expect(page).to have_content('購入画面に進む')
       # コメント投稿欄があることを確認する
+      expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
 
     it 'ログインしていない状態では商品詳細ページに遷移でき、商品の全情報は表示されるが、
       編集・削除・購入画面遷移ボタンとコメント投稿欄が表示されない' do
       # トップヘージに移動する
+      visit root_path
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # 商品の全情報があることを確認する
+      visible_checker(@item, true)
       # 編集・削除ボタンがないことを確認する
+      expect(page).to have_no_content('商品の編集')
+      expect(page).to have_no_content('削除')
       # 購入画面遷移ボタンがないことを確認する
+      expect(page).to have_no_content('購入画面に進む')
       # コメント投稿欄がないことを確認する
+      expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
   end
 
@@ -143,6 +167,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
         item_fee: item.fee
       )
       residence_purchase_history.save
+      sleep 0.1
     end
 
     it 'ログインした出品者でも商品詳細ページで、
@@ -150,28 +175,43 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # データの準備
       set_data(@user, @item)
       # 出品者でログインする
+      sign_in(@item.user)
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # 編集・削除ボタンがないことを確認する
+      expect(page).to have_no_content('商品の編集')
+      expect(page).to have_no_content('削除')
       # sold outの文字が表示されていることを確認する
+      expect(page).to have_content('Sold Out!!')
     end
     it 'ログインした出品者でないユーザーでも商品詳細ページで、
       購入画面遷移ボタンが表示されず、sold outの文字が表示される' do
       # データの準備
       set_data(@user, @item)
       # 出品者でないユーザーでログインする
+      sign_in(@user)
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # 購入画面遷移ボタンがないことを確認する
+      expect(page).to have_no_content('購入画面に進む')
       # sold outの文字が表示されていることを確認する
+      expect(page).to have_content('Sold Out!!')
     end
     it 'ログインしていない状態では商品詳細ページに遷移でき,sold outの文字が表示される' do
       # データの準備
       set_data(@user, @item)
       # トップヘージに移動する
+      visit root_path
       # 商品名をクリックする
+      click_on(@item.name)
       # 商品詳細ページへ移動していることを確認する
+      expect(current_path).to eq(item_path(@item))
       # sold outの文字が表示されていることを確認する
+      expect(page).to have_content('Sold Out!!')
     end
   end
 end
