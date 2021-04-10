@@ -63,22 +63,9 @@ RSpec.describe '商品一覧機能', type: :system do
     end
   end
   context '商品が売り切れている時' do
-    def set_all_data()
-      item = FactoryBot.create(:item)
-      user = FactoryBot.create(:user)
-      residence_purchase_history = FactoryBot.build(
-        :residence_purchase_history,
-        user_id: user.id,
-        item_id: item.id,
-        item_fee: item.fee
-      )
-      residence_purchase_history.save
-      sleep 0.1
-    end
-
     it '画像にsold outの文字が表示されている' do
       # データの準備
-      set_all_data()
+      set_data(nil, nil, true)
       # トップページに移動する
       visit root_path
       # sold outの文字が表示されていることを確認する
@@ -86,7 +73,6 @@ RSpec.describe '商品一覧機能', type: :system do
     end
   end
 end
-
 
 RSpec.describe '商品詳細表示機能', type: :system do
   before do
@@ -112,7 +98,6 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # コメント投稿欄があることを確認する
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
-
     it 'ログインした出品者でないユーザーは商品詳細ページで、編集・削除ボタンは表示されないが、
       商品の全情報、購入画面遷移ボタン・コメント投稿欄が表示される' do
       # 出品者でないユーザーでログインする
@@ -131,7 +116,6 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # コメント投稿欄があることを確認する
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
-
     it 'ログインしていない状態では商品詳細ページに遷移でき、商品の全情報は表示されるが、
       編集・削除・購入画面遷移ボタンとコメント投稿欄が表示されない' do
       # トップヘージに移動する
@@ -151,23 +135,11 @@ RSpec.describe '商品詳細表示機能', type: :system do
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
   end
-
   context '商品が売り切れている時' do
-    def set_data(user, item)
-      residence_purchase_history = FactoryBot.build(
-        :residence_purchase_history,
-        user_id: user.id,
-        item_id: item.id,
-        item_fee: item.fee
-      )
-      residence_purchase_history.save
-      sleep 0.1
-    end
-
     it 'ログインした出品者でも商品詳細ページで、
       編集・削除ボタンが表示されず、sold outの文字が表示される' do
       # データの準備
-      set_data(@user, @item)
+      set_data(@user, @item, false)
       # 出品者でログインする
       sign_in(@item.user)
       # 商品名をクリックする
@@ -183,7 +155,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
     it 'ログインした出品者でないユーザーでも商品詳細ページで、
       購入画面遷移ボタンが表示されず、sold outの文字が表示される' do
       # データの準備
-      set_data(@user, @item)
+      set_data(@user, @item, false)
       # 出品者でないユーザーでログインする
       sign_in(@user)
       # 商品名をクリックする
@@ -197,7 +169,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
     end
     it 'ログインしていない状態では商品詳細ページに遷移でき,sold outの文字が表示される' do
       # データの準備
-      set_data(@user, @item)
+      set_data(@user, @item, false)
       # トップヘージに移動する
       visit root_path
       # 商品名をクリックする
