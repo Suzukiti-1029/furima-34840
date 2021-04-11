@@ -10,8 +10,8 @@ RSpec.describe '商品出品機能', type: :system do
       # ログインする
       sign_in(@item.user)
       # 商品出品ページへのリンクがあることを確認する
-      expect(page).to have_content('出品する')
-      expect(page).to have_content('新規投稿商品')
+      expect(page).to have_link('出品する', href: new_item_path)
+      expect(page).to have_link('新規投稿商品', href: new_item_path)
       # 商品出品ページに移動する
       visit new_item_path
       #添付する画像を定義する
@@ -101,10 +101,10 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品の全情報があることを確認する
       item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがあることを確認する
-      expect(page).to have_content('商品の編集')
-      expect(page).to have_content('削除')
+      expect(page).to have_link('商品の編集', href: edit_item_path(@item))
+      expect(page).to have_link('削除', href: item_path(@item))
       # 購入画面遷移ボタンがないことを確認する
-      expect(page).to have_no_content('購入画面に進む')
+      expect(page).to have_no_link('購入画面に進む', href: new_item_residences_path(@item))
       # コメント投稿欄があることを確認する
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
@@ -119,10 +119,10 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品の全情報があることを確認する
       item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがないことを確認する
-      expect(page).to have_no_content('商品の編集')
-      expect(page).to have_no_content('削除')
+      expect(page).to have_no_link('商品の編集', href: edit_item_path(@item))
+      expect(page).to have_no_link('削除', href: item_path(@item))
       # 購入画面遷移ボタンがあることを確認する
-      expect(page).to have_content('購入画面に進む')
+      expect(page).to have_link('購入画面に進む', href: new_item_residences_path(@item))
       # コメント投稿欄があることを確認する
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
@@ -137,10 +137,10 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品の全情報があることを確認する
       item_visible_checker(@item, 'test_img.png', true)
       # 編集・削除ボタンがないことを確認する
-      expect(page).to have_no_content('商品の編集')
-      expect(page).to have_no_content('削除')
+      expect(page).to have_no_link('商品の編集', href: edit_item_path(@item))
+      expect(page).to have_no_link('削除', href: item_path(@item))
       # 購入画面遷移ボタンがないことを確認する
-      expect(page).to have_no_content('購入画面に進む')
+      expect(page).to have_no_link('購入画面に進む', href: new_item_residences_path(@item))
       # コメント投稿欄がないことを確認する
       expect(page).to have_selector("form[action='/items/#{@item.id}/comments'][method='post']")
     end
@@ -157,8 +157,8 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 編集・削除ボタンがないことを確認する
-      expect(page).to have_no_content('商品の編集')
-      expect(page).to have_no_content('削除')
+      expect(page).to have_no_link('商品の編集', href: edit_item_path(@item))
+      expect(page).to have_no_link('削除', href: item_path(@item))
       # sold outの文字が表示されていることを確認する
       expect(page).to have_content('Sold Out!!')
     end
@@ -173,7 +173,7 @@ RSpec.describe '商品詳細表示機能', type: :system do
       # 商品詳細ページへ移動していることを確認する
       expect(current_path).to eq(item_path(@item))
       # 購入画面遷移ボタンがないことを確認する
-      expect(page).to have_no_content('購入画面に進む')
+      expect(page).to have_no_link('購入画面に進む', href: new_item_residences_path(@item))
       # sold outの文字が表示されていることを確認する
       expect(page).to have_content('Sold Out!!')
     end
@@ -218,7 +218,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       image_path = Rails.root.join('public/images/test_edit_img.jpg')
       # 投稿内容を編集する
       attach_file('item[image]', image_path)
-      item_form_fill(@item.edit)
+      item_form_fill(@item_edit)
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
       expect{click_on('変更する')}.to change{Item.count}.by(0)
       # 商品詳細ページに遷移したことを確認する
