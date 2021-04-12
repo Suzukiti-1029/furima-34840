@@ -43,7 +43,7 @@ RSpec.describe '商品購入機能', type: :system do
       before_residence_count = Residence.count
       before_purchase_history_count = PurchaseHistory.count
       click_on('購入')
-      sleep 1.0
+      sleep 3.0
       expect(Residence.count - before_residence_count).to eq(1)
       expect(PurchaseHistory.count - before_purchase_history_count).to eq(1)
       # 購入完了ページに遷移したことを確認する
@@ -101,6 +101,7 @@ RSpec.describe '商品購入機能', type: :system do
       sleep 0.1
       # 出品者でないユーザーでログインする
       sign_in(@user)
+      binding.pry
       # 商品購入ページに遷移しようとする
       visit new_item_residences_path(@item)
       # トップページに戻されることを確認する
