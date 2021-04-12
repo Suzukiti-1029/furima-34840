@@ -14,7 +14,7 @@ RSpec.describe '商品出品機能', type: :system do
       expect(page).to have_link('新規投稿商品', href: new_item_path)
       # 商品出品ページに移動する
       visit new_item_path
-      #添付する画像を定義する
+      # 添付する画像を定義する
       image_path = Rails.root.join('public/images/test_img.png')
       # フォームに情報を入力する
       attach_file('item[image]', image_path)
@@ -23,7 +23,7 @@ RSpec.describe '商品出品機能', type: :system do
       expect(page).to have_content((@item.fee * 0.1).ceil)
       expect(page).to have_content((@item.fee * 0.9).floor)
       # 出品するとItemモデルのカウントが1上がることを確認する
-      expect{click_on('出品する')}.to change{Item.count}.by(1)
+      expect { click_on('出品する') }.to change { Item.count }.by(1)
       # トップページに遷移することを確認する
       expect(current_path).to eq(root_path)
       # トップページには先ほど出品した商品の画像、名前、値段、配送料負担オプションがあることを確認する
@@ -37,7 +37,7 @@ RSpec.describe '商品出品機能', type: :system do
       # 商品出品ページに移動する
       visit new_item_path
       # 「出品する」をクリックしてもItemモデルのカウントが上がらないことを確認する
-      expect{click_on('出品する')}.to change{Item.count}.by(0)
+      expect { click_on('出品する') }.to change { Item.count }.by(0)
       # 商品出品ページに戻されることを確認する
       expect(current_path).to eq(items_path)
       # エラーメッセージが画面に表示されていることを確認する
@@ -220,7 +220,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       attach_file('item[image]', image_path)
       item_form_fill(@item_edit)
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
-      expect{click_on('変更する')}.to change{Item.count}.by(0)
+      expect { click_on('変更する') }.to change { Item.count }.by(0)
       # 商品詳細ページに遷移したことを確認する
       expect(current_path).to eq(item_path(@item))
       # 詳細ページには先ほど変更した内容の商品の全情報が存在することを確認する
@@ -232,7 +232,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       # 商品情報編集ページに遷移する
       visit edit_item_path(@item)
       # 「変更する」ボタンもItemモデルのカウントは変わらないことを確認する
-      expect{click_on('変更する')}.to change{Item.count}.by(0)
+      expect { click_on('変更する') }.to change { Item.count }.by(0)
       # 商品詳細ページに遷移したことを確認する
       expect(current_path).to eq(item_path(@item))
       # 詳細ページには先ほどと同じ内容の商品の全情報が存在することを確認する
@@ -250,7 +250,7 @@ RSpec.describe '商品情報編集機能', type: :system do
       # 投稿内容を編集する
       item_form_fill(@item)
       # 「変更する」ボタンを押してもItemモデルのカウントは変わらないことを確認する
-      expect{click_on('変更する')}.to change{Item.count}.by(0)
+      expect { click_on('変更する') }.to change { Item.count }.by(0)
       # 商品情報編集ページに戻されることを確認する
       expect(current_path).to eq(item_path(@item))
       # エラーメッセージが画面に表示されていることを確認する
@@ -297,7 +297,7 @@ RSpec.describe '商品削除機能', type: :system do
     # 商品詳細ページへ遷移する
     visit item_path(@item)
     # 「削除」ボタンをクリックするとItemモデルのレコードの数が1減ることを確認する
-    expect{click_on('削除')}.to change{Item.count}.by(-1)
+    expect { click_on('削除') }.to change { Item.count }.by(-1)
     # トップページに遷移したことを確認する
     expect(current_path).to eq(root_path)
     # トップページには削除した商品の全情報がないことを確認する

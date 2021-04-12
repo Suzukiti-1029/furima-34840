@@ -19,26 +19,26 @@ RSpec.describe '商品購入機能', type: :system do
       visit new_item_residences_path(@item)
       # 必須情報を入力する
       fill_in 'residence_purchase_history[number]',
-        with: 4242424242424242
+              with: 4_242_424_242_424_242
       fill_in 'residence_purchase_history[exp_month]',
-        with: 3
+              with: 3
       fill_in 'residence_purchase_history[exp_year]',
-        with: 23
+              with: 23
       fill_in 'residence_purchase_history[cvc]',
-        with: 123
+              with: 123
       fill_in 'residence_purchase_history[area_number]',
-        with: @residence_purchase_history.area_number
+              with: @residence_purchase_history.area_number
       select Prefecture.find(
         @residence_purchase_history.prefecture_id
-        )[:name], from: 'residence_purchase_history[prefecture_id]'
+      )[:name], from: 'residence_purchase_history[prefecture_id]'
       fill_in 'residence_purchase_history[city]',
-        with: @residence_purchase_history.city
+              with: @residence_purchase_history.city
       fill_in 'residence_purchase_history[address]',
-        with: @residence_purchase_history.address
+              with: @residence_purchase_history.address
       fill_in 'residence_purchase_history[building]',
-        with: @residence_purchase_history.building
+              with: @residence_purchase_history.building
       fill_in 'residence_purchase_history[phone_number]',
-        with: @residence_purchase_history.phone_number
+              with: @residence_purchase_history.phone_number
       # 「購入する」ボタンをクリックするとResidenceモデルとPurchase_historyモデルのカウントが1上がることを確認する
       before_residence_count = Residence.count
       before_purchase_history_count = PurchaseHistory.count

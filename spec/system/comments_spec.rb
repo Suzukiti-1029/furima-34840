@@ -14,7 +14,7 @@ RSpec.describe 'コメント機能', type: :system do
       # コメント欄に記入する
       fill_in 'comment[text]', with: @comment.text
       # 「コメントする」のボタンを押すとCommentモデルのカウントが1上がることを確認する
-      expect{click_on('コメントする')}.to change{Comment.count}.by(1)
+      expect { click_on('コメントする') }.to change { Comment.count }.by(1)
       # さきほど記入した内容とユーザー名が表示されていることを確認する
       expect(page).to have_content("#{@item.user.nickname}： #{@comment.text}")
     end
@@ -26,7 +26,7 @@ RSpec.describe 'コメント機能', type: :system do
       # 商品情報詳細ページに遷移する
       visit item_path(@item)
       # 「コメントする」のボタンを押してもCommentモデルのカウントが上がらないことを確認する
-      expect{click_on('コメントする')}.to change{Comment.count}.by(0)
+      expect { click_on('コメントする') }.to change { Comment.count }.by(0)
       # エラーメッセージが画面に表示されていることを確認する
       @comment.text = ''
       @comment.valid?

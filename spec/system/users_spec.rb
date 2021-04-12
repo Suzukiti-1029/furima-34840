@@ -25,7 +25,7 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       select @user.birthday.month, from: 'user[birthday(2i)]'
       select @user.birthday.day, from: 'user[birthday(3i)]'
       # サインアップボタンを押すとユーザーモデルのカウントが1上がることを確認する
-      expect{click_on('会員登録')}.to change{User.count}.by(1)
+      expect { click_on('会員登録') }.to change { User.count }.by(1)
       # トップページへ遷移したことを確認する
       expect(current_path).to eq(root_path)
       # ログアウトボタンが表示されていることを確認する
@@ -44,7 +44,7 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       # 新規登録ページへ移動する
       visit new_user_registration_path
       # サインアップボタンを押してもユーザーモデルのカウントは上がらないことを確認する
-      expect{click_on('会員登録')}.to change{User.count}.by(0)
+      expect { click_on('会員登録') }.to change { User.count }.by(0)
       # 新規登録ページへ戻されることを確認する
       expect(current_path).to eq(user_registration_path)
       # エラーメッセージが画面に表示されていることを確認する
