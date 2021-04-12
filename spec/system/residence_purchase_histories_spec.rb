@@ -101,7 +101,6 @@ RSpec.describe '商品購入機能', type: :system do
       sleep 0.1
       # 出品者でないユーザーでログインする
       sign_in(@user)
-      binding.pry
       # 商品購入ページに遷移しようとする
       visit new_item_residences_path(@item)
       # トップページに戻されることを確認する
