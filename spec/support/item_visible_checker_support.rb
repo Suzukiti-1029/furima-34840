@@ -12,4 +12,10 @@ module ItemVisibleCheckerSupport
       expect(page).to have_content(item.need_days.name)
     end
   end
+  def item_invisible_checker(item, img_file)
+    expect(page).to have_no_selector("img[src$='#{img_file}']")
+    expect(page).to have_no_content(item.name)
+    expect(page).to have_no_content(item.fee)
+    expect(page).to have_no_content(item.fare_option.name)
+  end
 end
