@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+=begin
 RSpec.describe '商品出品機能', type: :system do
   before do
     @item = FactoryBot.build(:item)
@@ -283,5 +283,19 @@ RSpec.describe '商品情報編集機能', type: :system do
       # トップページに戻されることを確認する
       expect(current_path).to eq(root_path)
     end
+  end
+end
+=end
+RSpec.describe '商品削除機能', type: :system do
+  before do
+    @item = FactoryBot.create(:item)
+    @user = FactoryBot.create(:user)
+  end
+  it 'ログインした出品者は商品を削除できる' do
+    # 出品者でログインする
+    # 商品詳細ページへ遷移する
+    # 「削除」ボタンをクリックするとItemモデルのレコードの数が1減ることを確認する
+    # トップページに遷移したことを確認する
+    # トップページには削除した商品の全情報がないことを確認する
   end
 end
